@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Staff;
 use Illuminate\Http\Request;
 
 class StaffController extends Controller
 {
     public function create_staff(){
-        return view('create_staff');
+        $users = User::all(); // fetch all users
+        return view('create_staff', compact('users')); // through compact, pass users to view
     }
     public function ourfilestore_staff(REQUEST $request){
 
@@ -21,7 +23,7 @@ class StaffController extends Controller
             'linkedin' => 'nullable',
             'twitter' => 'nullable',
             'priority' => 'nullable',
-            'created_by' => 'required',
+            'created_by' => 'required|exists:users,id',
         ]);
 
         //Upload photo
@@ -55,7 +57,9 @@ class StaffController extends Controller
     public function editData_staff($id){
 
         $staff = Staff::findOrFail($id);
-        return view('edit_staff',['our_edit_staff' => $staff]);
+        $users = User::all();
+        return view('edit_staff', ['our_edit_staff' => $staff, 'users' => $users]);
+
     }
 
     public function updateData_staff($id, Request $request){
@@ -69,7 +73,7 @@ class StaffController extends Controller
             'linkedin' => 'nullable',
             'twitter' => 'nullable',
             'priority' => 'nullable',
-            'created_by' => 'required',
+            'created_by' => 'required|exists:users,id',
         ]);
 
         //Update Data

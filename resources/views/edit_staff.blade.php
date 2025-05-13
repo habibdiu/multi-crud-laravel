@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @vite('resources/css/app.css')
+    <!-- Select2 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp,container-queries"></script>
 
     <style type="text/tailwindcss">
@@ -11,6 +13,28 @@
       .container{
         @apply px-10 mx-auto;
       }
+    }
+    /* Dropdown list background */
+    .select2-container--default .select2-results__options {
+        background-color: #1f2937; /* bg-gray-800 */
+    }
+
+    /* Dropdown options text color */
+    .select2-container--default .select2-results__option {
+        color: #ffffff; /* white */
+    }
+
+    /* Highlighted option (hovered) */
+    .select2-container--default .select2-results__option--highlighted[aria-selected] {
+        background-color: #374151; /* bg-gray-700 */
+        color: #ffffff;
+    }
+
+    /* 🔥 This is the search bar input */
+    .select2-container--default .select2-search--dropdown .select2-search__field {
+        background-color: #1f2937 !important; /* bg-gray-800 */
+        color: #ffffff !important; /* white text */
+        border: 1px solid #4b5563; /* border-gray-600 */
     }
   </style>
 
@@ -79,11 +103,22 @@
                 <input type="number" name="priority" value= "{{old('priority',$our_edit_staff->priority)}}" min="0"  class="text-black">
                 
 
-                <label for="">Created By</label>
-                <input type="number" name="created_by" value= "{{old('created_by',$our_edit_staff->created_by)}}" min="0" oninput="document.getElementById('created_by-error')?.remove();" class="text-black">
+                <label for="created_by">Created By</label>
+                <select name="created_by" id="created_by"
+                oninput="document.getElementById('created_by-error')?.remove();"
+                 
+                class="select2 w-full text-white">
+                    <option>Select</option>
+                    @foreach($users as $user)
+                        <option value="{{ $user->id }}" {{ old('created_by') == $user->id ? 'selected' : '' }}>
+                            {{ $user->name }}
+                        </option>
+                    @endforeach
+                </select>
                 @error('created_by')
-                <p id = "created_by-error"  class = "text-red-600">{{$message}}</p>
+                    <p id="created_by-error" class="text-red-600">{{ $message }}</p>
                 @enderror
+
 
 
 
@@ -94,5 +129,27 @@
             </form>
         </div>
     </div>
+
+
+
+    
+
+    {{-- Select2 Input --}}
+
+    <!-- jQuery (required) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Select2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('.select2').select2({
+                placeholder: "Select a user",
+                allowClear: true
+            });
+        });
+    </script>
+
 </body>
 </html>
