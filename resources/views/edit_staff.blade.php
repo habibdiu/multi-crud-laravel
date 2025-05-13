@@ -60,7 +60,7 @@
                 <label for="">Phone</label>
                 <div class="flex items-center">
                     <span class="px-3 py-2 bg-gray-200 border border-r-0 border-gray-300 rounded-l-md text-black">+880</span>
-                    <input type="text" name="phone" value= "{{old('phone',$our_edit_staff->phone)}}" class="text-black border border-gray-300 rounded-r-md py-2 px-3 w-full" placeholder="1XXXXXXXXX">
+                    <input type="text" name="phone" value= "{{old('phone',$our_edit_staff->phone)}}" pattern="\d{10}" maxlength="10" minlength="10" required class="text-black border border-gray-300 rounded-r-md py-2 px-3 w-full" placeholder="1XXXXXXXXX">
                 </div>
 
                 <label for="">Facebook</label>
