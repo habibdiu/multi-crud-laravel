@@ -43,13 +43,13 @@
                   <td>{{$post_staff-> linkedin}}</td>
                   <td>{{$post_staff-> twitter}}</td>
                   <td class="text-center">{{$post_staff-> priority}}</td>
-                  <td class="text-center">{{$post_staff-> created_by}}</td>
+                  <td class="text-center">{{$post_staff->creator->name ?? 'N/A' }}</td>
                   <td class="w-[200px] text-right">
                     <a href="{{route('edit_staff', $post_staff->id)}}" class = "bg-green-600 text-white rounded py-2 px-4 inline">Edit</a>
                     <form method="POST" action="{{route('delete_staff', $post_staff->id)}}" class="bg-red-600 text-white rounded py-2 px-4 inline">
                       @csrf
                       @method('delete')
-                      <button type="submit" class="btnDel">Delete</button>
+                      <button type="submit" class="btnDel" onclick="return confirm('Are you sure you want to delete this staff?')">Delete</button>
                     </form>
                   </td>
               </tr>    

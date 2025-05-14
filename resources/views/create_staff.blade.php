@@ -11,34 +11,62 @@
 
     <style type="text/tailwindcss">
     @layer utilities {
-      .container{
+        .container {
         @apply px-10 mx-auto;
-      }
+        }
     }
 
-    /* Dropdown list background */
-    .select2-container--default .select2-results__options {
-        background-color: #1f2937; /* bg-gray-800 */
-    }
-
-    /* Dropdown options text color */
-    .select2-container--default .select2-results__option {
-        color: #ffffff; /* white */
-    }
-
-    /* Highlighted option (hovered) */
-    .select2-container--default .select2-results__option--highlighted[aria-selected] {
-        background-color: #374151; /* bg-gray-700 */
+    /*Style the main select2 box (the part you click) */
+    .select2-container--default .select2-selection--single {
+        background-color: #383c42;
+        border: 1px solid #f9fafb;
+        height: 48px !important;
+        display: flex;
+        align-items: center;
+        padding: 10px 12px;
+        font-size: 1rem;
         color: #ffffff;
     }
 
-    /* 🔥 This is the search bar input */
-    .select2-container--default .select2-search--dropdown .select2-search__field {
-        background-color: #1f2937 !important; /* bg-gray-800 */
-        color: #ffffff !important; /* white text */
-        border: 1px solid #4b5563; /* border-gray-600 */
+    /* Arrow in the select box */
+    .select2-container--default .select2-selection--single .select2-selection__arrow {
+        height: 100% !important;
+        top: 0px !important;
     }
-  </style>
+
+    /* Text inside the select box */
+    .select2-container--default .select2-selection--single .select2-selection__rendered {
+        line-height: normal !important;
+        color: #ffffff;
+    }
+
+    /*Dropdown list styling */
+    .select2-container--default .select2-results__options {
+        background-color: #2d2e30;
+        max-height: 300px !important;
+        overflow-y: auto;
+    }
+
+    /* Each dropdown option */
+    .select2-container--default .select2-results__option {
+        color: #ffffff;
+        line-height: 2rem;
+        padding: 10px 12px;
+    }
+
+    /* Highlighted option on hover */
+    .select2-container--default .select2-results__option--highlighted[aria-selected] {
+        background-color: #374151;
+    }
+
+    /* Search input in dropdown */
+    .select2-container--default .select2-search--dropdown .select2-search__field {
+        background-color: #aeaeae !important;
+        color: #1c1c1c !important;
+        border: 1px solid #4b5563;
+        padding: 10px;
+    }
+    </style>
 
     <title>add staff</title>
 </head>
@@ -85,8 +113,11 @@
                 <label for="">Phone</label>
                 <div class="flex items-center">
                     <span class="px-3 py-2 bg-gray-200 border border-r-0 border-gray-300 rounded-l-md text-black">+880</span>
-                    <input type="text" name="phone" value="{{ old('phone') }}" pattern="\d{10}" minlength="10" maxlength="10" required class="text-black border border-gray-300 rounded-r-md py-2 px-3 w-full" placeholder="1XXXXXXXXX">
+                    <input type="text" name="phone" value="{{ old('phone') }}" pattern="\d{10}" minlength="10" maxlength="10" class="text-black border border-gray-300 rounded-r-md py-2 px-3 w-full" placeholder="1XXXXXXXXX">
                 </div>
+                @error('phone')
+                    <p class="text-red-600">{{ $message }}</p>
+                @enderror
 
                 <label for="">Facebook</label>
                 <input type="url" name="facebook" value="{{ old('facebook') }}" placeholder="https://example.com" maxlength="255"  class="text-black">
@@ -140,8 +171,7 @@
     <script>
         $(document).ready(function() {
             $('.select2').select2({
-                placeholder: "Select a user",
-                allowClear: true
+                placeholder: "Select a user"
             });
         });
         

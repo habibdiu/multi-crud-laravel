@@ -25,18 +25,6 @@
 
         <div>
 
-
-          {{-- To check where getting error in the form --}}
-          {{-- @if ($errors->any())
-          <div class="bg-red-200 text-red-700 p-4 mb-4 rounded">
-              <ul class="list-disc pl-5">
-                  @foreach ($errors->all() as $error)
-                      <li>{{ $error }}</li>
-                  @endforeach
-              </ul>
-          </div>
-          @endif --}}
-
             <form method = "POST" action="{{route('update_slider',$our_edit_slider)}}" enctype = "multipart/form-data">
                 @csrf
 

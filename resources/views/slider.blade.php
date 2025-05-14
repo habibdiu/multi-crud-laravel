@@ -43,7 +43,7 @@
                     <form method="POST" action="{{route('delete_slider',$post_slider->id) }}" class="bg-red-600 text-white rounded py-2 px-4 inline">
                       @csrf
                       @method('delete')
-                      <button type="submit" class="btnDel">Delete</button>
+                      <button type="submit" class="btnDel" onclick="return confirm('Are you sure you want to delete this slider?')">Delete</button>
                     </form>
                   </td>
               </tr>    

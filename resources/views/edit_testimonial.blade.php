@@ -4,15 +4,69 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     @vite('resources/css/app.css')
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp,container-queries"></script>
 
     <style type="text/tailwindcss">
     @layer utilities {
-      .container{
+        .container {
         @apply px-10 mx-auto;
-      }
+        }
     }
-  </style>
+
+    /* Style the main select2 box (the part you click) */
+    .select2-container--default .select2-selection--single {
+        background-color: #383c42;
+        border: 1px solid #f9fafb;
+        height: 48px !important;
+        display: flex;
+        align-items: center;
+        padding: 10px 12px;
+        font-size: 1rem;
+        color: #ffffff;
+    }
+
+    /* Arrow in the select box */
+    .select2-container--default .select2-selection--single .select2-selection__arrow {
+        height: 100% !important;
+        top: 0px !important;
+    }
+
+    /* Text inside the select box */
+    .select2-container--default .select2-selection--single .select2-selection__rendered {
+        line-height: normal !important;
+        color: #ffffff;
+    }
+
+    /*Dropdown list styling */
+    .select2-container--default .select2-results__options {
+        background-color: #2d2e30;
+        max-height: 300px !important;
+        overflow-y: auto;
+    }
+
+    /* Each dropdown option */
+    .select2-container--default .select2-results__option {
+        color: #ffffff;
+        line-height: 2rem;
+        padding: 10px 12px;
+    }
+
+    /* Highlighted option on hover */
+    .select2-container--default .select2-results__option--highlighted[aria-selected] {
+        background-color: #374151;
+    }
+
+    /* 🔍 Search input in dropdown */
+    .select2-container--default .select2-search--dropdown .select2-search__field {
+        background-color: #aeaeae !important;
+        color: #1c1c1c !important;
+        border: 1px solid #4b5563;
+        padding: 10px;
+    }
+    </style>
+
+
 
     <title>edit testimonial</title>
 </head>
@@ -67,8 +121,16 @@
                         <p id = "photo-error"  class="text-red-600 text-sm mt-1">{{ $message }}</p>
                     @enderror
 
-                  <label for="">Created By</label>
-                  <input type="number" name="create_by" value= "{{old('create_by',$our_edit_testimonial->create_by)}}" min="0"  class="text-black">
+                    <label for="create_by">Created By</label>
+                    <select name="create_by" id="create_by"
+                        class="select2 w-full text-white">
+                        <option>Select</option>
+                        @foreach($users as $user)
+                            <option value="{{ $user->id }}" {{ old('create_by') == $user->id ? 'selected' : '' }}>
+                                {{ $user->name }}
+                            </option>
+                        @endforeach
+                    </select>
                   
 
                 <div>
@@ -78,5 +140,20 @@
             </form>
         </div>
     </div>
+
+    {{-- Select2 Input --}}
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Select2 JS -->
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('.select2').select2({
+                placeholder: "Select a user",
+            });
+        });
+        
+    </script>
 </body>
 </html>

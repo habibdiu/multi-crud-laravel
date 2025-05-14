@@ -18,7 +18,7 @@ class StaffController extends Controller
             'name' => 'required',
             'position' => 'required',
             'photo' => 'required|mimes:png,jpg,bmp,tiff,pdf',
-            'phone' => 'nullable',
+            'phone' => ['nullable', 'digits:10'],
             'facebook' => 'nullable',
             'linkedin' => 'nullable',
             'twitter' => 'nullable',
@@ -26,7 +26,7 @@ class StaffController extends Controller
             'created_by' => 'required|exists:users,id',
         ]);
 
-        //Upload photo
+        //Add photos into database
         $photoName = null;
         if(isset($request->photo)){
             
@@ -34,10 +34,10 @@ class StaffController extends Controller
             $request->photo-> move(public_path('photos'),$photoName);
         }
         
-
-
-        //Add new photo
+        
         $staff = new Staff;
+        $user = User::find($request->created_by);
+        $staff->created_by = $request->created_by;
 
         $staff->name = $request->name;
         $staff->position = $request->position;
@@ -47,7 +47,6 @@ class StaffController extends Controller
         $staff->linkedin = $request->linkedin;
         $staff->twitter = $request->twitter;
         $staff->priority = $request->priority;
-        $staff->created_by = $request->created_by;
         
         $staff->save();
         
@@ -68,7 +67,7 @@ class StaffController extends Controller
             'name' => 'required',
             'position' => 'required',
             'photo' => 'required|mimes:png,jpg,bmp,tiff,pdf',
-            'phone' => 'nullable',
+            'phone' => ['nullable', 'digits:10'],
             'facebook' => 'nullable',
             'linkedin' => 'nullable',
             'twitter' => 'nullable',
@@ -76,8 +75,11 @@ class StaffController extends Controller
             'created_by' => 'required|exists:users,id',
         ]);
 
-        //Update Data
+        //Update Data of database
         $staff = Staff::findOrFail($id);
+
+        $user = User::find($request->created_by);
+        $staff->created_by = $request->created_by;
         
         $staff->name = $request->name;
         $staff->position = $request->position;
@@ -86,9 +88,8 @@ class StaffController extends Controller
         $staff->linkedin = $request->linkedin;
         $staff->twitter = $request->twitter;
         $staff->priority = $request->priority;
-        $staff->created_by = $request->created_by;
 
-        //Update photo
+        //Update photo of the database
         if(isset($request->photo)){
             
             $photoName = time().'.'.$request->photo->extension();
@@ -110,14 +111,6 @@ class StaffController extends Controller
         $staff = Staff::findOrFail($id);
         $staff->delete();
 
-        
-        // flash()
-        // ->options([
-        //     'timeout' => 2000, // 2 seconds
-        //     'position' => 'top-right',
-        // ])
-        // ->addError('Your staff has been Deleted.');
         return redirect()->route('home_staff');
-
     }
 }

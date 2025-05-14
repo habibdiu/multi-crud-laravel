@@ -83,15 +83,7 @@ class SliderController extends Controller
         $slider = Slider::findOrFail($id);
         $slider->delete();
 
-        
-        // flash()
-        // ->options([
-        //     'timeout' => 2000, // 2 seconds
-        //     'position' => 'top-right',
-        // ])
-        // ->addError('Your slider has been Deleted.');
-        // return redirect()->route('home_slider');
-
+        return redirect()->route('home_slider');
     }
 
 }

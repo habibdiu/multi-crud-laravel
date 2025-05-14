@@ -8,4 +8,7 @@ class Staff extends Model
 {
     protected $table = 'staffs';
     protected $primaryKey = 'id';
+    public function creator() {
+        return $this->belongsTo(User::class, 'created_by');
+    }
 }

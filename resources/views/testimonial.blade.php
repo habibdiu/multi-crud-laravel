@@ -15,7 +15,7 @@
             @endif
     </div>
     <table class="table table-zebra">
-      
+      {{--Column for testimonial --}}
       <thead>
         <tr>
           <th>ID</th>
@@ -28,6 +28,7 @@
           <th class="text-center">Action</th>
         </tr>
       </thead>
+      {{-- Showing testimonial data by fatching from create and edit data blade --}}
       <tbody>
         @foreach($posts_testimonial as $post_testimonial)
               <tr>
@@ -43,7 +44,7 @@
                     <form method="POST" action="{{route('delete_testimonial', $post_testimonial->id)}}" class="bg-red-600 text-white rounded py-2 px-4 inline">
                       @csrf
                       @method('delete')
-                      <button type="submit" class="btnDel">Delete</button>
+                      <button type="submit" class="btnDel" onclick="return confirm('Are you sure you want to delete this testimonial?')">Delete</button>
                     </form>
                   </td>
               </tr>    

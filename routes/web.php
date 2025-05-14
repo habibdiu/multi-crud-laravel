@@ -32,7 +32,7 @@ Route::delete('/delete_slider/{id}', [SliderController::class, 'deleteData_slide
 
 //Staff
 Route::get('/staff', function () {
-    return view('staff',['posts_staff'=>Staff::paginate(5)]);
+    return view('staff',['posts_staff'=>Staff::with('creator')->paginate(5)]);
 })->name('home_staff');
 
 Route::get('/create_staff', [StaffController::class, 'create_staff']);

@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\Testimonial;
 use Illuminate\Http\Request;
 
 class TestimonialController extends Controller
 {
     public function create_testimonial(){
-        return view('create_testimonial');
+        $users = User::all(); // To fetch all data of User Model
+        return view('create_testimonial', compact('users'));
     }
     public function ourfilestore_testimonial(REQUEST $request){
 
@@ -21,7 +23,7 @@ class TestimonialController extends Controller
             'create_by' => 'nullable',
         ]);
 
-        //Upload photo
+        //Add photos to the database
         $photoName = null;
         if(isset($request->photo)){
             
@@ -31,7 +33,7 @@ class TestimonialController extends Controller
         
 
 
-        //Add new photo
+        //Add testimonial to the database
         $testimonial = new Testimonial;
 
         $testimonial->name = $request->name;
@@ -49,7 +51,8 @@ class TestimonialController extends Controller
     public function editData_testimonial($id){
 
         $testimonial = Testimonial::findOrFail($id);
-        return view('edit_testimonial',['our_edit_testimonial' => $testimonial]);
+        $users = User::all();
+        return view('edit_testimonial',['our_edit_testimonial' => $testimonial, 'users' => $users ]); //here 'users' => $users to fetch all data from User Model
     }
 
     public function updateData_testimonial($id, Request $request){
@@ -63,7 +66,7 @@ class TestimonialController extends Controller
             'create_by' => 'nullable',
         ]);
 
-        //Update Data
+        //Update data of database
         $testimonial = Testimonial::findOrFail($id);
         
         $testimonial->name = $request->name;
@@ -72,7 +75,7 @@ class TestimonialController extends Controller
         $testimonial->message = $request->message;
         $testimonial->create_by = $request->create_by;
 
-        //Update photo
+        //Update photo of database
         if(isset($request->photo)){
             
             $photoName = time().'.'.$request->photo->extension();
@@ -94,14 +97,6 @@ class TestimonialController extends Controller
         $testimonial = Testimonial::findOrFail($id);
         $testimonial->delete();
 
-        
-        // flash()
-        // ->options([
-        //     'timeout' => 2000, // 2 seconds
-        //     'position' => 'top-right',
-        // ])
-        // ->addError('Your testimonial has been Deleted.');
         return redirect()->route('home_testimonial');
-
     }
 }
